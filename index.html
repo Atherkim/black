@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>펠트 · 멀티플레이 블랙잭</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ===== 랜딩 화면: 이름 입력 / 방 생성·참가 ===== -->
+  <section id="landing" class="screen screen--landing">
+    <div class="landing-card">
+      <p class="eyebrow">SHOE · 01</p>
+      <h1 class="brand">펠트<span class="brand-accent">.</span></h1>
+      <p class="tagline">친구들과 함께하는 실시간 블랙잭 테이블</p>
+
+      <div class="field">
+        <label for="playerName">닉네임</label>
+        <input id="playerName" type="text" maxlength="12" placeholder="예: 아더" autocomplete="off" />
+      </div>
+
+      <div class="field">
+        <label for="roomCode">방 코드</label>
+        <input id="roomCode" type="text" maxlength="5" placeholder="예: GOLD1" autocomplete="off" style="text-transform:uppercase" />
+      </div>
+
+      <div class="landing-actions">
+        <button id="btnCreate" class="btn btn--primary">새 테이블 만들기</button>
+        <button id="btnJoin" class="btn btn--ghost">기존 테이블 참가</button>
+      </div>
+
+      <p id="landingError" class="error-text"></p>
+    </div>
+  </section>
+
+  <!-- ===== 게임 화면 ===== -->
+  <section id="table" class="screen screen--table" hidden>
+
+    <header class="table-header">
+      <div class="room-tag">
+        <span class="room-tag__label">TABLE</span>
+        <span id="roomCodeDisplay" class="room-tag__code">----</span>
+        <button id="btnCopyRoom" class="icon-btn" title="방 코드 복사">복사</button>
+      </div>
+      <div class="header-actions">
+        <button id="btnNextRound" class="btn btn--small btn--primary" hidden>다음 라운드</button>
+        <button id="btnLeave" class="btn btn--small btn--ghost">나가기</button>
+      </div>
+    </header>
+
+    <!-- 딜러의 슈(카드 딜링 박스) + 딜러 핸드 -->
+    <div class="dealer-zone">
+      <div class="shoe" aria-hidden="true">
+        <div class="shoe__card"></div>
+        <div class="shoe__card"></div>
+        <div class="shoe__card"></div>
+      </div>
+      <div class="dealer-info">
+        <span class="seat-label">딜러</span>
+        <span id="dealerTotal" class="hand-total">–</span>
+      </div>
+      <div id="dealerHand" class="hand hand--dealer"></div>
+    </div>
+
+    <!-- 진행 상태 / 로그 -->
+    <div class="table-status">
+      <p id="phaseLabel" class="phase-label">플레이어를 기다리는 중…</p>
+      <div id="log" class="log" aria-live="polite"></div>
+    </div>
+
+    <!-- 플레이어 좌석 arc -->
+    <div id="seats" class="seats"></div>
+
+    <!-- 컨트롤 패널 -->
+    <footer class="controls">
+      <div id="betControls" class="control-group" hidden>
+        <label for="betInput">베팅 칩</label>
+        <input id="betInput" type="number" min="10" step="10" value="50" />
+        <button id="btnBet" class="btn btn--primary">베팅하기</button>
+      </div>
+
+      <div id="turnControls" class="control-group" hidden>
+        <button id="btnHit" class="btn btn--primary">히트</button>
+        <button id="btnStand" class="btn btn--ghost">스탠드</button>
+      </div>
+
+      <div id="hostControls" class="control-group" hidden>
+        <button id="btnStartRound" class="btn btn--primary">라운드 시작</button>
+        <p class="hint-text">2인 이상 모이면 누구나 시작할 수 있어요</p>
+      </div>
+
+      <p id="waitingHint" class="hint-text">다른 참가자의 차례를 기다리는 중…</p>
+    </footer>
+
+  </section>
+
+  <!-- Firebase SDK (compat) -->
+  <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-database-compat.js"></script>
+
+  <script src="firebase-config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
